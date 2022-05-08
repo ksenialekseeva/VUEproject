@@ -1,25 +1,27 @@
 <template>
-  <div id="app">
-    <MyFinancesView />
+  <div class="calculator">
+    <h1>Try this calculator right now</h1>
   </div>
 </template>
 
 <script>
-import MyFinancesView from './views/MyFinancesView.vue'
+import Calculator from './components/Calculator.vue'
+
 export default {
-  name: 'App',
+  name: 'Calculator',
   components: {
-    MyFinancesView
+    Calculator
   }
 }
 </script>
 
-<style lang="scss">
+<style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  margin-top: 60px;
 }
 </style>
