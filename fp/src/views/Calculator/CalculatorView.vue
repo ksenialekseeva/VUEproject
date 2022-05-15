@@ -1,14 +1,15 @@
 <template>
   <div class="calculator">
     <h1>Try this calculator right now</h1>
+    <Calculator />
   </div>
 </template>
 
 <script>
-import Calculator from './components/Calculator.vue'
+import Calculator from '@/components/Calculator.vue';
 
 export default {
-  name: 'Calculator',
+  name: 'CalculatorView',
   components: {
     Calculator
   }
