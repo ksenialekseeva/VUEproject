@@ -1,18 +1,13 @@
 <template>
   <div id="app">
-    <MyFinancesView />
+    <nav>
+      <router-link :to="{name: 'Dashboard', params: {page: '1'}}">MyFinances</router-link> | 
+      <router-link to="/calculator">Calculator</router-link> | 
+      <router-link to="/addpayment">AddPayment</router-link>
+    </nav>
+    <router-view />
   </div>
 </template>
-
-<script>
-import MyFinancesView from './views/MyFinancesView.vue'
-export default {
-  name: 'App',
-  components: {
-    MyFinancesView
-  }
-}
-</script>
 
 <style lang="scss">
 #app {

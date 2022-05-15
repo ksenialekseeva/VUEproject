@@ -2,56 +2,61 @@
   <div class="finances">
     <header>
     <h1 class="headerTitle">My personal costs</h1>
+    <div>Total price = {{ getFullPaymentValue }}</div>
     </header>
     <main>
     <AddPaymentForm @addNewPayment="addPaymentData"/>
-    <PaymentsDisplay :items="paymentList"/>
+    <PaymentsDisplay :items="currentElements"/>
+    <MyPagination :cur="cur" :length="getPaymentList.length" :n="n" @changePage="changePage"/>
     </main>
   </div>
 </template>
 
 <script>
-import PaymentsDisplay from '@/components/PaymentsDisplay.vue'
-import AddPaymentForm from '@/components/AddPaymentForm.vue'
+import PaymentsDisplay from '@/components/PaymentsDisplay.vue';
+import AddPaymentForm from '@/components/AddPaymentForm.vue';
+import { mapMutations, mapGetters } from 'vuex';
+import MyPagination from '@/components/MyPagination.vue';
 
 export default {
   name: 'MyFinancesView',
   components: {
     PaymentsDisplay,
-    AddPaymentForm
+    AddPaymentForm,
+    MyPagination
   },
   data() {
       return {
-          paymentList: []
+        cur: 1,
+        n: 10,
       }
   },
+  computed: {
+    ... mapGetters(['getFullPaymentValue', 'getPaymentList']),
+    currentElements() {
+      return this.getPaymentList.slice(this.n * (this.cur - 1), this.n * (this.cur - 1) + this.n)
+    }
+  },
   methods: {
+    ... mapMutations([
+      'setPaymentListData'
+    ]),
       addPaymentData(data) {
           this.paymentList.push(data)
       },
-      fetchData() {
-          return [
-              {
-                date: "28.04.2022",
-                category: "Sport",
-                value: "1000",
-              },
-              {
-                date: "29.04.2022",
-                category: "Food",
-                value: "1700",
-              },
-              {
-                date: "30.04.2022",
-                category: "Food",
-                value: "400",
-              },
-          ];
-      },
+      changePage(p) {
+        this.cur = p
+      }
   },
-  created() {
-      this.paymentList = this.fetchData()
+  async created() {
+      await this.$store.dispatch('fetchData', this.cur)
+      // this.setPaymentListData(this.fetchData())
+      // this.$store.commit('setPaymentListData', this.fetchData())
   },
+  mounted() {
+    if(!this.$route.params?.page || isNaN(this.$route.params.page)) return
+    this.cur = Number(this.$route.params.page)
+  }
 };
 </script>
 

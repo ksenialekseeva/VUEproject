@@ -1,29 +1,38 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HomeView from '../views/MyFinancesView.vue'
+import Router from 'vue-router'
 
-Vue.use(VueRouter)
+import MyFinancesView from '../views/MyFinancesView.vue'
+import CalculatorView from '../views/Calculator/CalculatorView.vue'
+import AddPaymentView from '../views/AddPaymentView.vue'
+import AddPaymentForm from '../components/AddPaymentForm.vue'
+
+Vue.use(Router)
 
 const routes = [
-  {
-    path: '/',
-    name: 'My finances',
-    component: MyFinancesView
-  },
-  {
-    path: '/Calculator',
-    name: 'calculator',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Calculator/Calculator.vue')
-  }
+    {
+        path: "/dashboard/:page",
+        name: "Dashboard",
+        component: MyFinancesView,
+        
+    },
+    {
+        path: "/calculator",
+        name: "Calculator",
+        component: CalculatorView
+    },
+    {
+        path: "/addpayment",
+        name: "AddPayment",
+        component: AddPaymentView
+    },
+    {
+        path: "/add/:section/:category",
+        name: "AddPaymentForm",
+        component: AddPaymentForm
+    }
 ]
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+export default new Router ({
+    mode: "history",
+    routes
 })
-
-export default router
